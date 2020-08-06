@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Posture Detect</title>
+
+    <!-- Stylesheets -->
+    <!-- Tailwind.css Output -->
+    <link rel="stylesheet" href="./styles.out.css" />
+    <link rel="stylesheet" href="./res/loading-spinner.css" />
+
+    <!-- Load TensorFlow.js & PoseNet -->
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@tensorflow-models/posenet"></script>
+  </head>
+  <body class="max-w-md mx-auto px-8 py-4">
+    <div id="image-input-screen">
+      <!-- Hidden block element, used for hiding the UI when calculating pose -->
+      <div
+        id="pose-calc-screen"
+        class="hidden absolute top-0 left-0 min-h-screen min-w-full bg-blue-200 flex flex-col items-center justify-center"
+      >
+        <span class="font-medium text-lg">Estimating your pose</span>
+        <div class="loading-spinner">
+          <div class="spinner"></div>
+        </div>
+      </div>
+
+      <!-- Image upload parent container -->
+      <div id="upload-instruction-container" class="container">
+        <!-- Bordered container -->
+        <div
+          class="container rounded-lg p-4 border border-solid border-gray-400"
+        >
+          <h2 class="text-xl font-semibold">Upload your FRONT-ON image.</h2>
+
+          <!-- Upload image container -->
+          <div class="container mt-4 mb-8">
+            <span class="block mb-2">1️⃣ Choose your image</span>
+
+            <!-- todo: style this - https://tympanus.net/codrops/2015/09/15/styling-customizing-file-inputs-smart-way/ -->
+            <input id="img-uploader" type="file" />
+          </div>
+
+          <!-- Process image container -->
+          <div class="container mt-4">
+            <span class="block mb-2">2️⃣ Hit upload</span>
+
+            <button
+              id="upload-btn"
+              class="bg-red-400 w-full rounded py-2 px-4 font-semibold"
+            >
+              Upload
+            </button>
+          </div>
+        </div>
+        <!-- Terms and conditions -->
+        <span hidden class="text-gray-500 font-light text-xs italic"
+          >By uploading an image, you agree to the
+          <a
+            href="https://www.notion.so/witaylor/Posture-Analysis-Terms-Conditions-01dc397c3d1848548f6a1555765f48c6"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="underline"
+            >terms and conditions</a
+          >
+          .</span
+        >
+      </div>
+
+      <!-- Example image container -->
+      <div id="example-img-container" class="container mt-8">
+        <h3 class="text-center font-semibold mb-2">
+          Your image should look like this:
+        </h3>
+        <img
+          id="example-img"
+          src="./res/front-silhoutte.jpg"
+          alt="Frontal silhouette of a person"
+          class="mx-auto max-w-full max-h-256"
+        />
+      </div>
+
+      <!-- Bordered results info container -->
+      <div
+        hidden
+        id="results-info-container"
+        class="hidden container rounded-lg p-4 border border-solid border-gray-400"
+      >
+        <h2 class="text-xl font-semibold">Your results</h2>
+
+        <!-- Tilt result list -->
+        <div hidden class="hidden container mt-4 mb-8">
+          <ul class="list-disc ml-4">
+            <li>Your highest shoulder is your left (3 deg).</li>
+            <li>Your highest hip is your left (1 deg).</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Image confirmation/Pose display -->
+      <div hidden id="uploaded-img-container" class="container mt-8">
+        <h3 class="text-center font-semibold mb-2">
+          You uploaded:
+        </h3>
+        <!-- Canvas to draw image and pose -->
+        <canvas
+          id="results-canvas"
+          class="mx-auto max-w-full max-h-screen rounded-lg"
+        >
+          Your browser does not support the canvas element. Please try again
+          using a different browser.
+        </canvas>
+      </div>
+    </div>
+  </body>
+
+  <script src="./script.out.js"></script>
+</html>

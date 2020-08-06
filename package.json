@@ -1,0 +1,17 @@
+{
+  "name": "posture-detect",
+  "version": "1.0.0",
+  "description": "Posture detection app.",
+  "main": "index.js",
+  "scripts": {
+    "watch:js": "watchify src/scripts/main.js -o public/script.out.js",
+    "build:js": "browserify src/scripts/main.js -o public/script.out.js",
+    "build:css": "npx tailwindcss build src/styles/tailwind.css -o public/styles.out.css",
+    "build": "npm run build:js && npm run build:css",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {}
+}
