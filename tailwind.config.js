@@ -5,7 +5,18 @@ module.exports = {
       '0': '0',
       '256': '256px',
     },
-    extend: {},
+    extend: {
+      fontFamily: {
+        nunito: [
+          'nunito',
+          '-apple-system',
+          'Segoe UI',
+          'Roboto',
+          'Open Sans',
+          'sans-serif',
+        ],
+      },
+    },
   },
   variants: {},
   plugins: [],

@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "watch:js": "watchify src/scripts/main.js -o script.out.js",
-    "build:js": "browserify src/scripts/main.js -o script.out.js",
-    "build:css": "npx tailwindcss build src/styles/tailwind.css -o styles.out.css",
+    "build:js": "browserify src/scripts/main.js -o app/script.out.js",
+    "build:css": "npx tailwindcss build src/styles/tailwind.css -o app/styles.out.css",
     "build": "npm run build:js && npm run build:css",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
