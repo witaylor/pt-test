@@ -18039,6 +18039,52 @@ video {
           animation: bounce 1s infinite;
 }
 
+/* Loading Spinner */
+
+.loading-spinner {
+  position: relative;
+  width: 156px;
+  background-color: green;
+  margin: 0.5rem 0;
+}
+
+.loading-spinner .spinner {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background-color: rgba(0, 0, 0, 0.3);
+  top: 0;
+  left: 0;
+  -webkit-animation-name: loading-move;
+          animation-name: loading-move;
+  -webkit-animation-duration: 1s;
+          animation-duration: 1s;
+  -webkit-animation: loading-move 1s ease-in-out 0s infinite alternate;
+          animation: loading-move 1s ease-in-out 0s infinite alternate;
+  transform: translateX(-50%);
+}
+
+@-webkit-keyframes loading-move {
+  from {
+    left: 0;
+  }
+
+  to {
+    left: 100%;
+  }
+}
+
+@keyframes loading-move {
+  from {
+    left: 0;
+  }
+
+  to {
+    left: 100%;
+  }
+}
+
 @media (min-width: 640px){
   .sm\:container{
     width: 100%;

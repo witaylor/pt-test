@@ -1,7 +1,39 @@
 @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700&display=swap');
 
 @tailwind base;
-
 @tailwind components;
-
 @tailwind utilities;
+
+/* Loading Spinner */
+.loading-spinner {
+  position: relative;
+  width: 156px;
+  background-color: green;
+  margin: 0.5rem 0;
+}
+
+.loading-spinner .spinner {
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  background-color: rgba(0, 0, 0, 0.3);
+
+  top: 0;
+  left: 0;
+
+  animation-name: loading-move;
+  animation-duration: 1s;
+  animation: loading-move 1s ease-in-out 0s infinite alternate;
+
+  transform: translateX(-50%);
+}
+
+@keyframes loading-move {
+  from {
+    left: 0;
+  }
+  to {
+    left: 100%;
+  }
+}

@@ -2,6 +2,9 @@
 const canvas = document.getElementById('results-canvas');
 const ctx = canvas.getContext('2d');
 
+let uploadedImage = null;
+const imageUploaderInput = document.getElementById('img-uploader');
+
 function hide(element) {
   element.hidden = true;
   element.classList.add('hidden');
@@ -105,19 +108,67 @@ function drawPoseSkeleton(pointsList) {
   drawLineBetweenPoints(nose.position, shoulderMidpoint);
 }
 
+function findAngleBetweenTwoPoints(pointOne, pointTwo) {
+  const opposite = pointTwo.y - pointOne.y;
+  const hypotenuse = Math.sqrt(
+    Math.pow(pointOne.x - pointTwo.x, 2) + Math.pow(pointOne.y - pointTwo.y, 2)
+  );
+
+  console.log(`Tilt angle = asin(${opposite} / ${hypotenuse})`);
+  console.log(`Tilt angle = ${Math.asin(opposite / hypotenuse)}`);
+
+  return Math.asin(opposite / hypotenuse) * (180 / Math.PI);
+}
+
+function listHighestShoulder(keypoints) {
+  const left = keypoints.find((it) => it.part === 'leftShoulder');
+  const right = keypoints.find((it) => it.part === 'rightShoulder');
+
+  const highest = left.position.y > right.position.y ? 'right' : 'left';
+  const tiltAngle = `${findAngleBetweenTwoPoints(
+    left.position,
+    right.position
+  )}`.slice(0, 3);
+
+  document.getElementById(
+    'landmark-tilt-list'
+  ).innerHTML += `<li>Your highest shoulder is your ${highest} (${tiltAngle} deg).</li>`;
+}
+
+function listHighestHip(keypoints) {
+  const left = keypoints.find((it) => it.part === 'leftHip');
+  const right = keypoints.find((it) => it.part === 'rightHip');
+
+  const highest = left.position.y > right.position.y ? 'right' : 'left';
+  const tiltAngle = `${findAngleBetweenTwoPoints(
+    left.position,
+    right.position
+  )}`.slice(0, 3);
+
+  document.getElementById(
+    'landmark-tilt-list'
+  ).innerHTML += `<li>Your highest hip is your ${highest} (${tiltAngle} deg).</li>`;
+}
+
 function handleImageUpload(dataUrl) {
-  console.log('1. Image uploaded');
+  const shouldSaveImage = document.getElementById('save-agreement-check')
+    .checked;
+  console.log('Saving image analytics:', shouldSaveImage);
 
-  Promise.all([logAnalytics(dataUrl), processPose(canvas)]).then((res) => {
-    // hide the calculating screen
+  let actionResults = shouldSaveImage
+    ? [processPose(canvas), logAnalytics(dataUrl)]
+    : [processPose(canvas)];
+
+  Promise.all(actionResults).then((res) => {
     hide(document.getElementById('pose-calc-screen'));
-
-    const [analyticRes, poseRes] = res;
+    const [poseRes, analyticRes] = res;
 
     console.log('AR', analyticRes);
     console.log('PR', poseRes);
 
     drawPoseSkeleton(poseRes.keypoints);
+    listHighestShoulder(poseRes.keypoints);
+    listHighestHip(poseRes.keypoints);
 
     hide(document.getElementById('upload-instruction-container'));
     hide(document.querySelector('#uploaded-img-container h3'));
@@ -125,9 +176,6 @@ function handleImageUpload(dataUrl) {
     unhide(document.getElementById('results-info-container'));
   });
 }
-
-let uploadedImage = null;
-const imageUploaderInput = document.getElementById('img-uploader');
 
 imageUploaderInput.addEventListener('change', (e) => {
   console.log('img added', e.target.files[0]);
@@ -165,18 +213,19 @@ imageUploaderInput.addEventListener('change', (e) => {
 });
 
 document.getElementById('upload-btn').addEventListener('click', () => {
-  // show the calculating screen
-  unhide(document.getElementById('pose-calc-screen'));
-
-  const reader = new FileReader();
-  reader.onload = function (event) {
-    const dataUrl = event.target.result;
-    handleImageUpload(dataUrl);
-  };
-
   // todo - check & verify uploaded image, handle no upload nicely
+  if (!uploadedImage) {
+    alert('Please upload an image.');
+  } else {
+    unhide(document.getElementById('pose-calc-screen'));
 
-  reader.readAsDataURL(uploadedImage);
+    const reader = new FileReader();
+    reader.onload = function (event) {
+      const dataUrl = event.target.result;
+      handleImageUpload(dataUrl);
+    };
+    reader.readAsDataURL(uploadedImage);
+  }
 });
 
 },{}]},{},[1]);

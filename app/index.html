@@ -8,7 +8,6 @@
     <!-- Stylesheets -->
     <!-- Tailwind.css Output -->
     <link rel="stylesheet" href="./styles.out.css" />
-    <link rel="stylesheet" href="./res/loading-spinner.css" />
 
     <!-- Load TensorFlow.js & PoseNet -->
     <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs/dist/tf.min.js"></script>
@@ -30,29 +29,44 @@
       <!-- Image upload parent container -->
       <div id="upload-instruction-container" class="container">
         <!-- Bordered container -->
-        <div
-          class="container rounded-lg p-4 border border-solid border-gray-400"
-        >
+        <div class="container p-4">
           <h2 class="text-xl font-semibold">Upload your FRONT-ON image.</h2>
+          <p class="my-2">
+            For the best results, make sure the key landmarks of the body are
+            clearly visible. These are your shoulders, hips, knees and ankles.
+          </p>
+          <p class="mb-4">
+            Your image should look like the example below.
+          </p>
 
-          <!-- Upload image container -->
-          <div class="container mt-4 mb-8">
-            <span class="block mb-2">1️⃣ Choose your image</span>
-
-            <!-- todo: style this - https://tympanus.net/codrops/2015/09/15/styling-customizing-file-inputs-smart-way/ -->
-            <input id="img-uploader" type="file" />
+          <div class="mb-4">
+            <input type="checkbox" id="save-agreement-check" class="mr-1" />
+            <label>
+              I agree to the secure storage of my image for analytical purposes
+              only.
+            </label>
           </div>
 
-          <!-- Process image container -->
-          <div class="container mt-4">
-            <span class="block mb-2">2️⃣ Hit upload</span>
+          <div class="rounded-lg border border-solid border-gray-400 p-2 my-4">
+            <!-- Upload image container -->
+            <div class="container mb-8">
+              <span class="block mb-2">1️⃣ Choose your image</span>
 
-            <button
-              id="upload-btn"
-              class="bg-red-400 w-full rounded py-2 px-4 font-semibold"
-            >
-              Upload
-            </button>
+              <!-- todo: style this - https://tympanus.net/codrops/2015/09/15/styling-customizing-file-inputs-smart-way/ -->
+              <input id="img-uploader" type="file" />
+            </div>
+
+            <!-- Process image container -->
+            <div class="container mt-4">
+              <span class="block mb-2">2️⃣ Hit upload</span>
+
+              <button
+                id="upload-btn"
+                class="bg-red-400 w-full rounded py-2 px-4 font-semibold"
+              >
+                Upload
+              </button>
+            </div>
           </div>
         </div>
         <!-- Terms and conditions -->
@@ -70,7 +84,7 @@
       </div>
 
       <!-- Example image container -->
-      <div id="example-img-container" class="container mt-8">
+      <div id="example-img-container" class="container">
         <h3 class="text-center font-semibold mb-2">
           Your image should look like this:
         </h3>
@@ -91,11 +105,8 @@
         <h2 class="text-xl font-semibold">Your results</h2>
 
         <!-- Tilt result list -->
-        <div hidden class="hidden container mt-4 mb-8">
-          <ul class="list-disc ml-4">
-            <li>Your highest shoulder is your left (3 deg).</li>
-            <li>Your highest hip is your left (1 deg).</li>
-          </ul>
+        <div class="container mt-4 mb-8">
+          <ul class="list-disc ml-4" id="landmark-tilt-list"></ul>
         </div>
       </div>
 
