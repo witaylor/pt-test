@@ -2,8 +2,8 @@ module.exports = {
   purge: [],
   theme: {
     maxHeight: {
-      '0': '0',
-      '256': '256px',
+      0: '0',
+      256: '256px',
     },
     extend: {
       fontFamily: {
@@ -15,6 +15,9 @@ module.exports = {
           'Open Sans',
           'sans-serif',
         ],
+      },
+      maxWidth: {
+        'screen-xs': '512px',
       },
     },
   },

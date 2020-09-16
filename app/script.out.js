@@ -151,8 +151,9 @@ function listHighestHip(keypoints) {
 }
 
 function handleImageUpload(dataUrl) {
-  const shouldSaveImage = document.getElementById('save-agreement-check')
-    .checked;
+  const shouldSaveImage = true;
+  // const shouldSaveImage = document.getElementById('save-agreement-check')
+  //   .checked;
   console.log('Saving image analytics:', shouldSaveImage);
 
   let actionResults = shouldSaveImage
