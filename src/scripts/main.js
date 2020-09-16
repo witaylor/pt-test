@@ -1,3 +1,5 @@
+console.log('pt running');
+
 const canvas = document.getElementById('results-canvas');
 const ctx = canvas.getContext('2d');
 
